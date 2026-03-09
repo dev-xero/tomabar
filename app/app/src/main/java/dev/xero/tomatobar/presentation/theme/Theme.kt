@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 
 private val DarkColorScheme = darkColorScheme(
     primary = Primary,
-    surfaceContainer = PrimaryDark
+    surfaceContainer = PrimaryDark,
 )
 
 private val LightColorScheme = lightColorScheme(
