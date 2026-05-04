@@ -1,16 +1,18 @@
 package conf
 
 import (
+	_ "embed"
 	"errors"
 	"fmt"
-	"io"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/dev-xero/tomabar/internal/utils"
 	"gopkg.in/yaml.v3"
 )
+
+//go:embed conf.yaml
+var configData []byte
 
 // Conf represents the conf.yaml file.
 type Conf struct {
@@ -21,22 +23,9 @@ type Conf struct {
 // readConfig reads the configuration yaml file from the file system and
 // produces a pointer to the Conf struct, otherwise it returns an error.
 func ReadConfig() (*Conf, error) {
-	file, err := os.Open("conf.yaml")
-	if err != nil {
-		message := fmt.Sprintf("failed to open configuration file: %v", err)
-		return nil, errors.New(message)
-	}
-	defer file.Close()
-
-	data, err := io.ReadAll(file)
-	if err != nil {
-		message := fmt.Sprintf("failed to read configuration file: %v", err)
-		return nil, errors.New(message)
-	}
-
 	var conf Conf
-	err = yaml.Unmarshal(data, &conf)
-	if err != nil {
+
+	if err := yaml.Unmarshal(configData, &conf); err != nil {
 		message := fmt.Sprintf("failed to unmarshal configuration file: %v", err)
 		return nil, errors.New(message)
 	}
