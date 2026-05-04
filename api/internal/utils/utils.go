@@ -15,6 +15,8 @@ func Kill(err error) {
 }
 
 // Respond returns json encoded data to the caller.
-func Respond(w http.ResponseWriter, data any) error {
+func Respond(w http.ResponseWriter, status int, data any) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
 	return json.NewEncoder(w).Encode(data)
 }

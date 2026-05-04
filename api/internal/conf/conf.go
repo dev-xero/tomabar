@@ -7,13 +7,13 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/dev-xero/tomabar/internal/utils"
 	"gopkg.in/yaml.v3"
 )
 
 // Conf represents the conf.yaml file.
 type Conf struct {
 	MetricsPath string `yaml:"metrics_path"`
+	Host        string `yaml:"host"`
 }
 
 // readConfig reads the configuration yaml file from the file system and
@@ -46,6 +46,6 @@ func ReadConfig() (*Conf, error) {
 // REST API.
 func (c *Conf) HandleMetrics() http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		utils.Respond(w, utils.M{})
+		// utils.Respond(w, utils.M{}),
 	}
 }

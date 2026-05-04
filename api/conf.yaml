@@ -1,2 +1,3 @@
 # Change this to exactly match where your tomato bar logs are stored.
 metrics_path: ~/Library/Containers/com.github.ivoronin.TomatoBar/Data/Library/Caches/TomatoBar.log
+host: http://localhost

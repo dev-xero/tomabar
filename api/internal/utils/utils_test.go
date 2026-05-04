@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"net/http"
 	"net/http/httptest"
 	"reflect"
 	"testing"
@@ -14,7 +15,7 @@ func TestRespond(t *testing.T) {
 		"description": "must encode a valid struct as json.",
 	}
 
-	if err := Respond(rec, data); err != nil {
+	if err := Respond(rec, http.StatusOK, data); err != nil {
 		t.Fatalf("response returned an error: %v", err)
 	}
 
