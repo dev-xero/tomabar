@@ -24,7 +24,7 @@ func StartServer(conf *conf.Conf) {
 
 // handleIndex is a http handler that responds to requests hitting the index '/'.
 // This is used purely for live-ness checks.
-func handleIndex(w http.ResponseWriter, req *http.Request) {
+func handleIndex(w http.ResponseWriter, r *http.Request) {
 	err := utils.Respond(
 		w,
 		http.StatusOK,
