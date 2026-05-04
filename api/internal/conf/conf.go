@@ -4,10 +4,7 @@ import (
 	_ "embed"
 	"errors"
 	"fmt"
-	"net/http"
-	"time"
 
-	"github.com/dev-xero/tomabar/internal/utils"
 	"gopkg.in/yaml.v3"
 )
 
@@ -31,20 +28,4 @@ func ReadConfig() (*Conf, error) {
 	}
 
 	return &conf, nil
-}
-
-// handleMetrics is a http handler that transmits Tomato bar's log file over a
-// REST API.
-func (c *Conf) HandleMetrics() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		utils.Respond(
-			w,
-			http.StatusOK,
-			utils.M{
-				"message":   "Tomato Bar metrics",
-				"timestamp": time.Now(),
-				"data":      nil,
-			},
-		)
-	}
 }

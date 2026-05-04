@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/dev-xero/tomabar/internal/conf"
+	"github.com/dev-xero/tomabar/internal/metrics"
 	"github.com/dev-xero/tomabar/internal/server"
 )
 
@@ -13,6 +14,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("configuration file loaded")
-	server.StartServer(conf)
+	log.Printf("Configuration file loaded")
+
+	ms, err := metrics.NewMetricsScanner(conf)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer ms.File.Close()
+	log.Printf("Metrics scanner started successfully")
+
+	server.StartServer(conf, ms)
 }
