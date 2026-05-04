@@ -1,12 +1,13 @@
 package server
 
 import (
+	"bufio"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 
-	"github.com/dev-xero/tomabar/internal/conf"
 	"github.com/dev-xero/tomabar/internal/metrics"
 )
 
@@ -46,14 +47,12 @@ func TestHandleMetrics(t *testing.T) {
 		t.Fatalf("failed to create request: %v", err)
 	}
 
-	conf, err := conf.ReadConfig()
-	if err != nil {
-		t.Errorf("failed to read config file: %v", err)
-	}
-
-	ms, err := metrics.NewMetricsScanner(conf)
-	if err != nil {
-		t.Errorf("failed to create metrics scanner: %v", err)
+	// These have to be mocked, the CI runners have no way to
+	// read the actual file. We're more interested in getting
+	// an OK response from the server.
+	ms := &metrics.MetricsScanner{
+		File:    &os.File{},
+		Scanner: bufio.NewScanner(&os.File{}),
 	}
 
 	rr := httptest.NewRecorder()
