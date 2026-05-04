@@ -3,8 +3,11 @@ name: Run API Tests
 on: [push]
 
 jobs:
-  build:
+  api:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
 
     steps:
       - uses: actions/checkout@v6
@@ -12,7 +15,6 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: "1.21.x"
-      - name: Install dependencies
-        run: go get .
+          cache-dependency-path: api/go.sum
       - name: Test with the Go CLI
-        run: go test ./internal/...
+        run: go test ./...
