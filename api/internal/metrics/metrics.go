@@ -51,7 +51,7 @@ func (ms *MetricsScanner) Close() error {
 }
 
 // readRawMetricsFile performs the actual file open and read operations, then
-// returns a byte slice if no error occur.
+// returns a pointer to the file descriptor if no errors occur.
 func readRawMetricsFile(conf *conf.Conf) (*os.File, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {

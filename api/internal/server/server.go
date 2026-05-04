@@ -1,8 +1,12 @@
 package server
 
 import (
+	"context"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/dev-xero/tomabar/internal/conf"
@@ -14,13 +18,33 @@ import (
 // according to each letter's position in the alphabet), then listens for
 // incoming requests.
 func StartServer(conf *conf.Conf, ms *metrics.MetricsScanner) {
+	srv := &http.Server{
+		Addr:    ":2118",
+		Handler: nil,
+	}
+
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/metrics", handleMetrics(ms))
 
-	log.Printf("Server is listening at %v:2118", conf.Host)
-	if err := http.ListenAndServe(":2118", nil); err != nil {
-		utils.Kill(err)
+	go func() {
+		log.Printf("Server is listening at %v:2118", conf.Host)
+		if err := http.ListenAndServe(":2118", nil); err != nil {
+			utils.Kill(err)
+		}
+	}()
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+	<-quit
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Printf("Forced shutdown: %v", err)
 	}
+
+	log.Println("Server stopped")
 }
 
 // handleIndex is a http handler that responds to requests hitting the index '/'.
