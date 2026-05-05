@@ -9,3 +9,9 @@ host: http://localhost
 
 # Change this to whatever free port the server should listen to
 port: 2118
+
+# Change this to tweak metrics time to live in the cache.
+ttl: 20
+
+# Change this to tweak cache purge interval.
+purge: 30

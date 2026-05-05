@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/dev-xero/tomabar/internal/conf"
+	"github.com/dev-xero/tomabar/internal/kv"
 )
 
 func TestHandleIndex(t *testing.T) {
@@ -50,10 +51,14 @@ func TestHandleMetrics(t *testing.T) {
 		MetricsPath: "testdata/metrics.log",
 		Host:        "http://localhost",
 		Port:        2118,
+		TTL:         5,
+		Purge:       10,
 	}
 
+	cache := kv.NewStore(conf.TTL, conf.Purge)
+
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(handleMetrics(conf))
+	handler := http.HandlerFunc(handleMetrics(conf, cache))
 
 	handler.ServeHTTP(rr, req)
 

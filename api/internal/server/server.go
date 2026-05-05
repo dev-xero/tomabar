@@ -11,20 +11,21 @@ import (
 	"time"
 
 	"github.com/dev-xero/tomabar/internal/conf"
+	"github.com/dev-xero/tomabar/internal/kv"
 	"github.com/dev-xero/tomabar/internal/metrics"
 	"github.com/dev-xero/tomabar/internal/utils"
 )
 
 // StartServer opens an unencrypted TCP/IP port specified by the config file,
 // then listens for any incoming requests.
-func StartServer(conf *conf.Conf) {
+func StartServer(conf *conf.Conf, cache *kv.KvStore) {
 	srv := &http.Server{
 		Addr:    ":" + strconv.Itoa(conf.Port),
 		Handler: nil,
 	}
 
 	http.HandleFunc("/", handleIndex)
-	http.HandleFunc("/metrics", handleMetrics(conf))
+	http.HandleFunc("/metrics", handleMetrics(conf, cache))
 
 	go func() {
 		log.Printf("Server is listening at %v:2118", conf.Host)
@@ -68,10 +69,10 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 // HandleMetrics is an http handler that transmits Tomato bar's log file over a
 // REST API.
-func handleMetrics(conf *conf.Conf) http.HandlerFunc {
+func handleMetrics(conf *conf.Conf, cache *kv.KvStore) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		utils.LogRequest(r, func() {
-			metrics, err := metrics.ReadMetrics(conf)
+			metrics, err := metrics.ReadMetrics(conf, cache)
 
 			if err != nil {
 				log.Printf(

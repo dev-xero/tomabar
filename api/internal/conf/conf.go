@@ -17,6 +17,8 @@ type Conf struct {
 	MetricsPath string `yaml:"metrics_path"`
 	Host        string `yaml:"host"`
 	Port        int    `yaml:"port"`
+	TTL         int    `yaml:"ttl"`
+	Purge       int    `yaml:"purge"`
 }
 
 // ReadConfig reads the configuration yaml file from the embed and returns

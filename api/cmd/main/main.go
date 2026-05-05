@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/dev-xero/tomabar/internal/conf"
+	"github.com/dev-xero/tomabar/internal/kv"
 	"github.com/dev-xero/tomabar/internal/server"
 )
 
@@ -16,5 +17,7 @@ func main() {
 
 	log.Printf("Configuration file loaded")
 
-	server.StartServer(conf)
+	cache := kv.NewStore(conf.TTL, conf.Purge)
+
+	server.StartServer(conf, cache)
 }
