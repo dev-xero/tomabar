@@ -13,6 +13,9 @@ is_prefixed: true
 metrics_path: Library/Containers/com.github.ivoronin.TomatoBar/Data/Library/Caches/TomatoBar.log
 host: http://localhost
 port: 2118
+ttl: 20
+purge: 30
+
 ```
 
 This is very bare-bones and the default settings should work on your system.
@@ -25,9 +28,13 @@ This is very bare-bones and the default settings should work on your system.
 
 - `port`: This is the socket port to listen to for incoming requests.
 
-> ### Why "2118"?
+> #### Why "2118"?
 > 
 > No reason in particular, I replaced the word 'bar' with each letter's position in the alphabet!
+
+- `ttl`: This configures how long the metrics are kept in cache before expiring. This value is expressed in minutes.
+
+- `purge`: This configures when the cache should evict stale data. This value is also expressed in minutes.
 
 ## Task files
 
