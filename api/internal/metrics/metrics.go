@@ -10,7 +10,7 @@ import (
 	"github.com/dev-xero/tomabar/internal/conf"
 )
 
-// header denotes the kind of event which was logged by Tomato bar.
+// header represents the kind of event which was logged by Tomato bar.
 var header struct {
 	Type string `json:"type"`
 }
@@ -29,8 +29,9 @@ type Metric struct {
 // JSON representation.
 func ReadMetrics(conf *conf.Conf) ([]Metric, error) {
 	// We're going to cache the result of scanning this file so that later
-	// requests don't take as long. The issue presently is efficiently scanning
-	// the lines we're interested in and building our struct from there.
+	// requests don't take as long.
+	// The issue presently is efficiently scanning the lines so that our
+	// Metric struct slice is built from there.
 	var metrics []Metric
 
 	// basically cache-miss
@@ -79,6 +80,8 @@ func ReadMetrics(conf *conf.Conf) ([]Metric, error) {
 // readRawMetricsFile performs the actual file open and read operations, then
 // returns a pointer to the file descriptor if no errors occur.
 func readRawMetricsFile(conf *conf.Conf) (*os.File, error) {
+	// This prefix is necessary for CI tests since they do not have the actual
+	// log file in the $HOME root but instead rely on mock data.
 	var prefix string
 	if conf.IsPrefixed {
 		home, err := os.UserHomeDir()

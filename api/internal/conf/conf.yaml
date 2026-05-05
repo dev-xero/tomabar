@@ -6,3 +6,6 @@ metrics_path: Library/Containers/com.github.ivoronin.TomatoBar/Data/Library/Cach
 
 # Change this to whatever host the server is running on.
 host: http://localhost
+
+# Change this to whatever free port the server should listen to
+port: 2118

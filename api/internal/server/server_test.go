@@ -49,6 +49,7 @@ func TestHandleMetrics(t *testing.T) {
 		IsPrefixed:  false,
 		MetricsPath: "testdata/metrics.log",
 		Host:        "http://localhost",
+		Port:        2118,
 	}
 
 	rr := httptest.NewRecorder()
@@ -63,6 +64,4 @@ func TestHandleMetrics(t *testing.T) {
 			http.StatusOK,
 		)
 	}
-
-	// !TODO: body data property should contain keys unique to metrics log.
 }

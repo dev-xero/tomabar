@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
@@ -14,12 +15,11 @@ import (
 	"github.com/dev-xero/tomabar/internal/utils"
 )
 
-// startServer opens an unencrypted TCP/IP port at :2118 ('bar' encoded
-// according to each letter's position in the alphabet), then listens for
-// incoming requests.
+// StartServer opens an unencrypted TCP/IP port at the port specified by the
+// config file, then listens for any incoming requests.
 func StartServer(conf *conf.Conf) {
 	srv := &http.Server{
-		Addr:    ":2118",
+		Addr:    ":" + strconv.Itoa(conf.Port),
 		Handler: nil,
 	}
 
@@ -47,7 +47,7 @@ func StartServer(conf *conf.Conf) {
 	log.Println("Server stopped")
 }
 
-// handleIndex is a http handler that responds to requests hitting the index '/'.
+// handleIndex is an http handler that responds to requests hitting the index '/'.
 // This is used purely for live-ness checks.
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	utils.LogRequest(r, func() {
@@ -66,7 +66,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// HandleMetrics is a http handler that transmits Tomato bar's log file over a
+// HandleMetrics is an http handler that transmits Tomato bar's log file over a
 // REST API.
 func handleMetrics(conf *conf.Conf) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

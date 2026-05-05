@@ -16,10 +16,11 @@ type Conf struct {
 	IsPrefixed  bool   `yaml:"is_prefixed"`
 	MetricsPath string `yaml:"metrics_path"`
 	Host        string `yaml:"host"`
+	Port        int    `yaml:"port"`
 }
 
-// readConfig reads the configuration yaml file from the file system and
-// produces a pointer to the Conf struct, otherwise it returns an error.
+// ReadConfig reads the configuration yaml file from the embed and returns
+// a pointer to the Conf struct, otherwise it returns an error.
 func ReadConfig() (*Conf, error) {
 	var conf Conf
 
