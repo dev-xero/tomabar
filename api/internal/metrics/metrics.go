@@ -35,6 +35,7 @@ func ReadMetrics(conf *conf.Conf) ([]Metric, error) {
 
 	// basically cache-miss
 	if true {
+
 		rawFile, err := readRawMetricsFile(conf)
 		if err != nil {
 			return nil, err
@@ -78,12 +79,15 @@ func ReadMetrics(conf *conf.Conf) ([]Metric, error) {
 // readRawMetricsFile performs the actual file open and read operations, then
 // returns a pointer to the file descriptor if no errors occur.
 func readRawMetricsFile(conf *conf.Conf) (*os.File, error) {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return nil, err
+	var prefix string
+	if conf.IsPrefixed {
+		home, err := os.UserHomeDir()
+		if err != nil {
+			return nil, err
+		}
+		prefix = home
 	}
-
-	path := filepath.Join(home, conf.MetricsPath)
+	path := filepath.Join(prefix, conf.MetricsPath)
 
 	file, err := os.Open(path)
 	if err != nil {

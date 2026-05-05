@@ -18,7 +18,7 @@ func TestReadConfig(t *testing.T) {
 		field := confVal.Field(i)
 		if !field.IsValid() || field.IsZero() {
 			t.Errorf(
-				"invalid configuration, expected field '%v' to not be invalid"+
+				"invalid configuration, expected field '%v' to not be invalid "+
 					"or zero",
 				field,
 			)

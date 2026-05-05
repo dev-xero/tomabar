@@ -45,9 +45,10 @@ func TestHandleMetrics(t *testing.T) {
 		t.Fatalf("failed to create request: %v", err)
 	}
 
-	conf, err := conf.ReadConfig()
-	if err != nil {
-		t.Fatalf("failed to read config file: %v", err)
+	conf := &conf.Conf{
+		IsPrefixed:  false,
+		MetricsPath: "testdata/metrics.log",
+		Host:        "http://localhost",
 	}
 
 	rr := httptest.NewRecorder()

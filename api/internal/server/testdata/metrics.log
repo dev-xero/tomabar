@@ -1,0 +1,8 @@
+{"timestamp":1769866102.8299599,"type":"appstart"}
+{"event":"startStop","fromState":"idle","timestamp":1769866132.086627,"toState":"work","type":"transition"}
+{"event":"timerFired","fromState":"work","timestamp":1769867631.666531,"toState":"rest","type":"transition"}
+{"event":"timerFired","fromState":"rest","timestamp":1769867931.212751,"toState":"work","type":"transition"}
+{"event":"timerFired","fromState":"work","timestamp":1769869430.6526132,"toState":"rest","type":"transition"}
+{"event":"timerFired","fromState":"rest","timestamp":1769869730.2308822,"toState":"work","type":"transition"}
+{"event":"startStop","fromState":"work","timestamp":1769869764.118115,"toState":"idle","type":"transition"}
+{"event":"startStop","fromState":"idle","timestamp":1769869983.999084,"toState":"work","type":"transition"}

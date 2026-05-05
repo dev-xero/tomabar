@@ -13,6 +13,7 @@ var configData []byte
 
 // Conf represents the conf.yaml file.
 type Conf struct {
+	IsPrefixed  bool   `yaml:"is_prefixed"`
 	MetricsPath string `yaml:"metrics_path"`
 	Host        string `yaml:"host"`
 }

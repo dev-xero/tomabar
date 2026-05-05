@@ -1,3 +1,8 @@
+# Set this to false if you don't want to prefix the path with $HOME.
+is_prefixed: true
+
 # Change this to exactly match where your tomato bar logs are stored.
 metrics_path: Library/Containers/com.github.ivoronin.TomatoBar/Data/Library/Caches/TomatoBar.log
+
+# Change this to whatever host the server is running on.
 host: http://localhost
