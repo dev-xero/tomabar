@@ -1,0 +1,17 @@
+version: 3
+
+tasks:
+  install-dependencies:
+    desc: Install Go dependencies.
+    cmds:
+      - go mod tidy
+
+  default:
+    desc: Build and run server
+    cmds:
+      - go run cmd/main/main.go
+
+  run-tests:
+    desc: Run unit tests.
+    cmds:
+      - go test ./internal/...
