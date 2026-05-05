@@ -17,14 +17,14 @@ import (
 // startServer opens an unencrypted TCP/IP port at :2118 ('bar' encoded
 // according to each letter's position in the alphabet), then listens for
 // incoming requests.
-func StartServer(conf *conf.Conf, ms *metrics.MetricsScanner) {
+func StartServer(conf *conf.Conf) {
 	srv := &http.Server{
 		Addr:    ":2118",
 		Handler: nil,
 	}
 
 	http.HandleFunc("/", handleIndex)
-	http.HandleFunc("/metrics", handleMetrics(ms))
+	http.HandleFunc("/metrics", handleMetrics(conf))
 
 	go func() {
 		log.Printf("Server is listening at %v:2118", conf.Host)
@@ -68,11 +68,11 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 // HandleMetrics is a http handler that transmits Tomato bar's log file over a
 // REST API.
-func handleMetrics(ms *metrics.MetricsScanner) http.HandlerFunc {
+func handleMetrics(conf *conf.Conf) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		utils.LogRequest(r, func() {
-			metrics, err := ms.ReadMetrics()
-			
+			metrics, err := metrics.ReadMetrics(conf)
+
 			if err != nil {
 				log.Printf(
 					"something went wrong while fetching and parsing metrics: %v",
@@ -87,7 +87,7 @@ func handleMetrics(ms *metrics.MetricsScanner) http.HandlerFunc {
 					},
 				)
 			}
-			
+
 			utils.Respond(
 				w,
 				http.StatusOK,
