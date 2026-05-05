@@ -50,33 +50,53 @@ func StartServer(conf *conf.Conf, ms *metrics.MetricsScanner) {
 // handleIndex is a http handler that responds to requests hitting the index '/'.
 // This is used purely for live-ness checks.
 func handleIndex(w http.ResponseWriter, r *http.Request) {
-	err := utils.Respond(
-		w,
-		http.StatusOK,
-		utils.M{
-			"message":   "API is reachable",
-			"timestamp": time.Now(),
-			"data":      nil,
-		},
-	)
-	if err != nil {
-		utils.Kill(err)
-	}
+	utils.LogRequest(r, func() {
+		err := utils.Respond(
+			w,
+			http.StatusOK,
+			utils.M{
+				"message":   "API is reachable",
+				"timestamp": time.Now(),
+				"data":      nil,
+			},
+		)
+		if err != nil {
+			utils.Kill(err)
+		}
+	})
 }
 
 // HandleMetrics is a http handler that transmits Tomato bar's log file over a
 // REST API.
 func handleMetrics(ms *metrics.MetricsScanner) http.HandlerFunc {
-	ms.ReadMetrics()
 	return func(w http.ResponseWriter, r *http.Request) {
-		utils.Respond(
-			w,
-			http.StatusOK,
-			utils.M{
-				"message":   "Tomato Bar metrics",
-				"timestamp": time.Now(),
-				"data":      nil,
-			},
-		)
+		utils.LogRequest(r, func() {
+			metrics, err := ms.ReadMetrics()
+			
+			if err != nil {
+				log.Printf(
+					"something went wrong while fetching and parsing metrics: %v",
+					err,
+				)
+				utils.Respond(
+					w,
+					http.StatusInternalServerError,
+					utils.M{
+						"message":   "Could not complete this request",
+						"timestamp": time.Now(),
+					},
+				)
+			}
+			
+			utils.Respond(
+				w,
+				http.StatusOK,
+				utils.M{
+					"message":   "Tomato Bar metrics",
+					"timestamp": time.Now(),
+					"data":      metrics,
+				},
+			)
+		})
 	}
 }
