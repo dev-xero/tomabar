@@ -15,8 +15,8 @@ import (
 	"github.com/dev-xero/tomabar/internal/utils"
 )
 
-// StartServer opens an unencrypted TCP/IP port at the port specified by the
-// config file, then listens for any incoming requests.
+// StartServer opens an unencrypted TCP/IP port specified by the config file,
+// then listens for any incoming requests.
 func StartServer(conf *conf.Conf) {
 	srv := &http.Server{
 		Addr:    ":" + strconv.Itoa(conf.Port),
