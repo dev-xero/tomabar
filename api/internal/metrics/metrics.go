@@ -26,13 +26,14 @@ type Metric struct {
 	Type      string  `json:"type"`
 }
 
-// ReadMetrics attempts to parse the metrics log file data into a sensible
-// JSON representation.
-func ReadMetrics(conf *conf.Conf, cache *kv.KvStore) ([]Metric, error) {
+// GetMetrics attempts to fetch the metrics log file from a cache first, or
+// fallback to the local filesystem.
+func GetMetrics(conf *conf.Conf, cache *kv.KvStore) ([]Metric, error) {
 	// We're going to cache the result of scanning this file so that later
 	// requests don't take as long.
 	if cached, found := cache.GetMetrics(); found {
-		// Cache Hit: We use this instead.
+		// Cache Hit.
+		// We use this instead.
 		log.Println("Cache Hit! Using stored value")
 		metrics := cached.([]Metric)
 		return metrics, nil
@@ -40,7 +41,8 @@ func ReadMetrics(conf *conf.Conf, cache *kv.KvStore) ([]Metric, error) {
 
 	log.Println("Cache miss, defaulting to local filesystem")
 
-	// Cache Miss: The issue presently is efficiently scanning the lines so that
+	// Cache Miss.
+	// The issue presently is efficiently scanning the lines so that
 	// our Metric struct slice is built from there.
 	rawFile, err := readRawMetricsFile(conf)
 	if err != nil {
@@ -48,9 +50,49 @@ func ReadMetrics(conf *conf.Conf, cache *kv.KvStore) ([]Metric, error) {
 	}
 	defer rawFile.Close()
 
+	metrics, err := parseRawMetrics(rawFile)
+	if err != nil {
+		return nil, err
+	}
+
+	cache.SetMetrics(metrics)
+
+	log.Printf("Metrics saved to cache, valid for %v minutes\n", conf.TTL)
+
+	return metrics, nil
+}
+
+// readRawMetricsFile performs the actual file open and read operations, then
+// returns a pointer to the file descriptor if no errors occur.
+func readRawMetricsFile(conf *conf.Conf) (*os.File, error) {
+	// This prefix is necessary for CI tests since they do not have the actual
+	// log file in the $HOME root but instead rely on mock data.
+	var prefix string
+
+	if conf.IsPrefixed {
+		home, err := os.UserHomeDir()
+		if err != nil {
+			return nil, err
+		}
+		prefix = home
+	}
+
+	path := filepath.Join(prefix, conf.MetricsPath)
+
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+
+	return file, nil
+}
+
+// parseRawMetrics attempts to parse the metrics file into structured,
+// consistent slice of the `Metric` type.
+func parseRawMetrics(file *os.File) ([]Metric, error) {
 	var metrics []Metric
 
-	bufScanner := bufio.NewScanner(rawFile)
+	bufScanner := bufio.NewScanner(file)
 
 	for bufScanner.Scan() {
 		// There are many inconsistencies in the log file, and this particular
@@ -80,33 +122,5 @@ func ReadMetrics(conf *conf.Conf, cache *kv.KvStore) ([]Metric, error) {
 		return nil, err
 	}
 
-	cache.SetMetrics(metrics)
-	log.Printf("Metrics saved to cache, valid for %v minutes\n", conf.TTL)
-
 	return metrics, nil
-}
-
-// readRawMetricsFile performs the actual file open and read operations, then
-// returns a pointer to the file descriptor if no errors occur.
-func readRawMetricsFile(conf *conf.Conf) (*os.File, error) {
-	// This prefix is necessary for CI tests since they do not have the actual
-	// log file in the $HOME root but instead rely on mock data.
-	var prefix string
-
-	if conf.IsPrefixed {
-		home, err := os.UserHomeDir()
-		if err != nil {
-			return nil, err
-		}
-		prefix = home
-	}
-
-	path := filepath.Join(prefix, conf.MetricsPath)
-
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-
-	return file, nil
 }

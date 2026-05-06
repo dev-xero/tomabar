@@ -72,7 +72,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 func handleMetrics(conf *conf.Conf, cache *kv.KvStore) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		utils.LogRequest(r, func() {
-			metrics, err := metrics.ReadMetrics(conf, cache)
+			metrics, err := metrics.GetMetrics(conf, cache)
 
 			if err != nil {
 				log.Printf(
