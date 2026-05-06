@@ -1,4 +1,4 @@
-package dev.xero.tomatobar
+package dev.xero.tomabar
 
 import org.junit.Test
 

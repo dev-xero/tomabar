@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.xero.tomatobar"
+    namespace = "dev.xero.tomabar"
     compileSdk {
         version = release(36)
     }

@@ -1,4 +1,4 @@
-package dev.xero.tomatobar.presentation.theme
+package dev.xero.tomabar.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package dev.xero.tomatobar
+package dev.xero.tomabar
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,8 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import dev.xero.tomatobar.presentation.screens.home.HomeScreen
-import dev.xero.tomatobar.presentation.theme.TomatoBarTheme
+import dev.xero.tomabar.presentation.screens.home.HomeScreen
+import dev.xero.tomabar.presentation.theme.TomatoBarTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
