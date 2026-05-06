@@ -22,39 +22,13 @@ import dev.xero.tomatobar.R
 fun HomeScreen(modifier: Modifier = Modifier) {
     Scaffold(
         modifier = modifier.padding(12.dp),
-        topBar = { HomeScreenTopBar() },
+//        topBar = { HomeScreenTopBar() },
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.consumeWindowInsets(innerPadding),
             contentPadding = innerPadding,
         ) {
-        }
-    }
-}
-
-@Composable
-private fun HomeScreenTopBar(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_base),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(48.dp),
-        )
-        Column(
-            modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text(
-                text = "TomatoBar Remote",
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.headlineSmall
-            )
-            Text(text = "Focus session visuals")
         }
     }
 }
