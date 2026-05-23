@@ -2,4 +2,7 @@
     <string name="app_name">TomaBar</string>
     <string name="streak_flame">Streak Flame</string>
     <string name="your_focus">Your focus</string>
+    <string name="day_streak">day streak</string>
+    <string name="last_session">"・ last session "</string>
+    <string name="best_run">Best run</string>
 </resources>

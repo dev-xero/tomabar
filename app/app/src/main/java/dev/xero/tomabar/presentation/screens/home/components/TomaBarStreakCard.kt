@@ -70,7 +70,7 @@ fun TomaBarStreakCard(modifier: Modifier = Modifier) {
                         modifier = Modifier.alignByBaseline()
                     )
                     Text(
-                        "day streak",
+                        stringResource(R.string.day_streak),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.alignByBaseline()
                     )
@@ -79,13 +79,13 @@ fun TomaBarStreakCard(modifier: Modifier = Modifier) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text("Best run", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.best_run), style = MaterialTheme.typography.labelLarge)
                     Text(
                         "23 days",
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold
                     )
-                    Text("・ last session " + "today", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.last_session) + "today", style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
