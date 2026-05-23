@@ -36,7 +36,7 @@ fun TomaBarStatsChips(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun RowScope.StatChip(modifier: Modifier = Modifier, stat: String, label: String) {
+private fun RowScope.StatChip(modifier: Modifier = Modifier, stat: String, label: String) {
     Column(
         modifier = modifier
             .weight(1f)
@@ -48,7 +48,7 @@ fun RowScope.StatChip(modifier: Modifier = Modifier, stat: String, label: String
         Spacer(Modifier.height(4.dp))
         Text(
             label,
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
