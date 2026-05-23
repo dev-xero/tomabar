@@ -3,6 +3,7 @@ package dev.xero.tomabar.presentation.screens.home
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -42,8 +43,9 @@ private val sampleSegments: List<TimelineSegment> = run {
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Scaffold(
-        modifier = modifier.padding(12.dp),
         topBar = { TomaBarAppBar() },
+        containerColor = MaterialTheme.colorScheme.surface,
+        modifier = modifier.padding(12.dp)
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.consumeWindowInsets(innerPadding),
