@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TomaBar</string>
+    <string name="streak_flame">Streak Flame</string>
+    <string name="your_focus">Your focus</string>
 </resources>
