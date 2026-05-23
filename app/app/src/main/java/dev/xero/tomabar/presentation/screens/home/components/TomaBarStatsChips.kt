@@ -27,7 +27,7 @@ fun TomaBarStatsChips(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp)
+            .padding(bottom = 12.dp)
     ) {
         StatChip(stat = "4.0x", label = "Work : rest")
         StatChip(stat = "80%", label = "Completed")

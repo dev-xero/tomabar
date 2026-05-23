@@ -35,7 +35,7 @@ fun TomaBarStreakCard(modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(24.dp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp),
+            .padding(vertical = 12.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
