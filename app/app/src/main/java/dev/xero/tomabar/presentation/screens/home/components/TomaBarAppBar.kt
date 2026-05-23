@@ -1,8 +1,10 @@
 package dev.xero.tomabar.presentation.screens.home.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,9 +17,11 @@ import dev.xero.tomabar.R
 @Composable
 fun TomaBarAppBar(modifier: Modifier = Modifier) {
     Row(
-        modifier = modifier,
         verticalAlignment = Alignment.Bottom,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)

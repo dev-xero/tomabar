@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import dev.xero.tomabar.domain.models.SessionState
 import dev.xero.tomabar.domain.models.TimelineSegment
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarAppBar
+import dev.xero.tomabar.presentation.screens.home.components.TomaBarBreakdownCards
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarDailySessionCard
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStatsChips
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStreakCard
@@ -55,6 +56,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 TomaBarStreakCard()
                 TomaBarStatsChips()
                 TomaBarDailySessionCard(sampleSegments)
+                TomaBarBreakdownCards()
             }
         }
     }

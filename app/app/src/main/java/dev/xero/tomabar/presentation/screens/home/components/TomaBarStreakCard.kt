@@ -30,7 +30,7 @@ import dev.xero.tomabar.presentation.theme.focusColors
 fun TomaBarStreakCard(modifier: Modifier = Modifier) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         shape = RoundedCornerShape(24.dp),
         modifier = modifier

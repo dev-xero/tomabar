@@ -74,7 +74,8 @@ private fun TomaBarSessionCard(
             TimelineAxis(segments)
             Spacer(Modifier.height(15.dp))
 
-            TimelineLegend()        }
+            TimelineLegend()
+        }
     }
 }
 
