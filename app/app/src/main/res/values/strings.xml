@@ -8,4 +8,7 @@
     <string name="today_s_session">TODAY\'S SESSION</string>
     <string name="timeline">Timeline</string>
     <string name="breakdown">BREAKDOWN</string>
+    <string name="patterns">PATTERNS</string>
+    <string name="focus_by_hour">Focus by hour</string>
+    <string name="peak">Peak %1$s</string>
 </resources>

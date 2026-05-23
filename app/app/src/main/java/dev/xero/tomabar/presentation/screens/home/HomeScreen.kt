@@ -13,6 +13,7 @@ import dev.xero.tomabar.domain.models.TimelineSegment
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarAppBar
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarBreakdownCards
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarDailySessionCard
+import dev.xero.tomabar.presentation.screens.home.components.TomaBarSessionHistograms
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStatsChips
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStreakCard
 import java.time.LocalDate
@@ -57,6 +58,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 TomaBarStatsChips()
                 TomaBarDailySessionCard(sampleSegments)
                 TomaBarBreakdownCards()
+                TomaBarSessionHistograms()
             }
         }
     }
