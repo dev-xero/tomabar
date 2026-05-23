@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarAppBar
+import dev.xero.tomabar.presentation.screens.home.components.TomaBarStreakCard
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
@@ -19,6 +20,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.consumeWindowInsets(innerPadding),
             contentPadding = innerPadding,
         ) {
+            item {
+                TomaBarStreakCard()
+            }
         }
     }
 }

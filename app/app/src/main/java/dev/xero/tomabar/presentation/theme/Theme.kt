@@ -83,21 +83,26 @@ data class FocusColors(
     val work: Color,
     val rest: Color,
     val idle: Color,
+    val accent: Color,
 )
 
 private val LightFocusColors = FocusColors(
     work = md_light_primary,
     rest = md_light_tertiary,
     idle = md_light_outlineVariant,
+    accent = md_accent_light,
 )
 
 private val DarkFocusColors = FocusColors(
     work = md_dark_primary,
     rest = md_dark_tertiary,
     idle = md_dark_outlineVariant,
+    accent = md_accent_dark,
 )
-
 val LocalFocusColors = staticCompositionLocalOf { LightFocusColors }
+
+val MaterialTheme.focusColors: FocusColors
+    @Composable get() = LocalFocusColors.current
 
 @Composable
 fun TomaBarTheme(
