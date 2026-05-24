@@ -15,4 +15,5 @@
     <string name="intro">TomaBar is a companion app for the Open Source \'TomatoBar\' pomodoro tool on MacOS. It offers helpful visuals into your session habits!</string>
     <string name="intro_contd">It is assumed that you have a server running on the computer where TomatoBar is installed and is accessible via a network.</string>
     <string name="server_ip_address">Server IP Address</string>
+    <string name="connect">Connect</string>
 </resources>

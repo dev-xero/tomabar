@@ -102,6 +102,6 @@ private fun OnboardingButton(
         onClick = { onClick() },
         modifier = modifier.fillMaxWidth()
     ) {
-        Text("Connect", modifier = Modifier.padding(8.dp))
+        Text(stringResource(R.string.connect), modifier = Modifier.padding(8.dp))
     }
 }
