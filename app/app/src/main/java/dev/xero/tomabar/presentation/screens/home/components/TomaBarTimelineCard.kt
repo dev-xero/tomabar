@@ -37,7 +37,7 @@ import dev.xero.tomabar.domain.utils.formatClock
 import dev.xero.tomabar.presentation.theme.focusColors
 
 @Composable
-fun TomaBarDailySessionCard(
+fun TomaBarDailyTimelineCard(
     segments: List<TimelineSegment>, modifier: Modifier = Modifier
 ) {
     Column(
@@ -51,12 +51,12 @@ fun TomaBarDailySessionCard(
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        TomaBarSessionCard(segments = segments)
+        TomaBarTimelineCard(segments = segments)
     }
 }
 
 @Composable
-private fun TomaBarSessionCard(
+private fun TomaBarTimelineCard(
     segments: List<TimelineSegment>, modifier: Modifier = Modifier
 ) {
     Card(
@@ -65,7 +65,7 @@ private fun TomaBarSessionCard(
         ), shape = RoundedCornerShape(24.dp), modifier = modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
-            TomaBarSessionHeader()
+            TomaBarTimelineHeader()
             Spacer(Modifier.height(16.dp))
 
             TomaBarSessionTimeline(segments = segments)
@@ -80,7 +80,7 @@ private fun TomaBarSessionCard(
 }
 
 @Composable
-fun TomaBarSessionHeader(modifier: Modifier = Modifier) {
+fun TomaBarTimelineHeader(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

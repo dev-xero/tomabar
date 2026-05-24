@@ -24,10 +24,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.xero.tomabar.R
+import dev.xero.tomabar.domain.utils.StreakInfo
 import dev.xero.tomabar.presentation.theme.focusColors
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun TomaBarStreakCard(modifier: Modifier = Modifier) {
+fun TomaBarStreakCard(
+    streak: StreakInfo,
+    modifier: Modifier = Modifier
+) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -65,7 +71,7 @@ fun TomaBarStreakCard(modifier: Modifier = Modifier) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        "17",
+                        streak.current.toString(),
                         style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier.alignByBaseline()
                     )
@@ -79,15 +85,25 @@ fun TomaBarStreakCard(modifier: Modifier = Modifier) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(stringResource(R.string.best_run), style = MaterialTheme.typography.labelLarge)
                     Text(
-                        "23 days",
+                        "${streak.best} days",
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(stringResource(R.string.last_session) + "today", style = MaterialTheme.typography.labelLarge)
+                    Text(
+                       text = "・" +  lastSessionLabel(streak.lastActiveDate),
+                        style = MaterialTheme.typography.labelLarge
+                    )
                 }
             }
         }
     }
 }
+
+private fun lastSessionLabel(date: LocalDate?, today: LocalDate = LocalDate.now()): String =
+    when (date) {
+        null -> "No sessions yet"
+        today -> "last session today"
+        today.minusDays(1) -> "last session yesterday"
+        else -> "last session ${date.format(DateTimeFormatter.ofPattern("MMM d"))}"
+    }
