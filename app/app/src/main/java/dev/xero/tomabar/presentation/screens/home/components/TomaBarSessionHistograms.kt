@@ -128,7 +128,7 @@ private fun TomaBarFocusHistogram(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight(fraction)
-                        .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                        .clip(RoundedCornerShape(16.dp))
                         .background(if (hour == peakHour) peakColor else mutedColor)
                 )
             }
