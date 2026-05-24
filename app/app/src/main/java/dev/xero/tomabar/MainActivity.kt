@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dev.xero.tomabar.presentation.screens.home.HomeScreen
+import dev.xero.tomabar.presentation.screens.onboarding.OnboardingScreen
 import dev.xero.tomabar.presentation.theme.TomaBarTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             TomaBarTheme {
                 Scaffold (containerColor = MaterialTheme.colorScheme.surface) { innerPadding ->
-                    HomeScreen(modifier = Modifier.padding(innerPadding))
+                      OnboardingScreen(modifier = Modifier.padding(innerPadding))
+//                    HomeScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
