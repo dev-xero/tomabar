@@ -23,6 +23,7 @@ import dev.xero.tomabar.R
 import dev.xero.tomabar.domain.models.HeatmapData
 import dev.xero.tomabar.domain.models.SessionState
 import dev.xero.tomabar.domain.models.TimelineSegment
+import dev.xero.tomabar.domain.utils.today
 import dev.xero.tomabar.presentation.screens.home.components.OfflineBanner
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarAppBar
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarBreakdownCards
@@ -108,7 +109,7 @@ private fun HomeContent(
         item {
             TomaBarStreakCard()
             TomaBarStatsChips()
-            TomaBarDailySessionCard(sessions)
+            TomaBarDailySessionCard(sessions.today())
             TomaBarBreakdownCards()
             TomaBarSessionHistograms()
             TomaBarYearlyHeatmap(sampleHeatmapData)
