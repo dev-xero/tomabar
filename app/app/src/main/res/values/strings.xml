@@ -16,4 +16,5 @@
     <string name="intro_contd">It is assumed that you have a server running on the computer where TomatoBar is installed and is accessible via a network.</string>
     <string name="server_ip_address">Server IP Address</string>
     <string name="connect">Connect</string>
+    <string name="no_data_yet">No data yet</string>
 </resources>
