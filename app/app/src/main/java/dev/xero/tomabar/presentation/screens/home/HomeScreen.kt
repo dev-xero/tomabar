@@ -21,8 +21,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.xero.tomabar.R
 import dev.xero.tomabar.domain.models.HeatmapData
-import dev.xero.tomabar.domain.models.SessionState
 import dev.xero.tomabar.domain.models.TimelineSegment
+import dev.xero.tomabar.domain.utils.computeSessionStats
 import dev.xero.tomabar.domain.utils.computeStreak
 import dev.xero.tomabar.domain.utils.today
 import dev.xero.tomabar.presentation.screens.home.components.OfflineBanner
@@ -34,7 +34,6 @@ import dev.xero.tomabar.presentation.screens.home.components.TomaBarStatsChips
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStreakCard
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarYearlyHeatmap
 import java.time.LocalDate
-import java.time.ZoneId
 
 @Composable
 fun HomeScreen(
@@ -56,7 +55,10 @@ fun HomeScreen(
         when (val s = state) {
             is HomeUiState.Loading -> {
                 Box(
-                    Modifier.fillMaxSize().consumeWindowInsets(innerPadding).padding(innerPadding),
+                    Modifier
+                        .fillMaxSize()
+                        .consumeWindowInsets(innerPadding)
+                        .padding(innerPadding),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator()
@@ -65,7 +67,10 @@ fun HomeScreen(
 
             is HomeUiState.Empty -> {
                 Box(
-                    Modifier.fillMaxSize().consumeWindowInsets(innerPadding).padding(innerPadding),
+                    Modifier
+                        .fillMaxSize()
+                        .consumeWindowInsets(innerPadding)
+                        .padding(innerPadding),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -109,7 +114,12 @@ private fun HomeContent(
         }
         item {
             TomaBarStreakCard(computeStreak(sessions))
-            TomaBarStatsChips()
+            TomaBarStatsChips(
+                computeSessionStats(
+                    scoped = sessions.today(),
+                    allHistory = sessions
+                )
+            )
             TomaBarDailyTimelineCard(sessions.today())
             TomaBarBreakdownCards()
             TomaBarSessionHistograms()
@@ -134,7 +144,7 @@ private val sampleHeatmapData: HeatmapData = run {
             roll < (if (isWeekend) 0.55 else 0.25) -> 0
             roll < 0.70 -> 1 + random.nextInt(2)
             roll < 0.90 -> 3 + random.nextInt(3)
-            else        -> 6 + random.nextInt(4)
+            else -> 6 + random.nextInt(4)
         }
         if (count > 0) map[day] = count
         day = day.plusDays(1)

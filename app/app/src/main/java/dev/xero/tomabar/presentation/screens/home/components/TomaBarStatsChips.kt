@@ -2,36 +2,40 @@ package dev.xero.tomabar.presentation.screens.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import dev.xero.tomabar.domain.utils.SessionStats
 
 @Composable
-fun TomaBarStatsChips(modifier: Modifier = Modifier) {
+fun TomaBarStatsChips(
+    stats: SessionStats,
+    modifier: Modifier = Modifier
+) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 12.dp)
+        modifier = modifier.fillMaxWidth().padding(bottom = 12.dp)
     ) {
-        StatChip(stat = "4.0x", label = "Work : rest")
-        StatChip(stat = "80%", label = "Completed")
-        StatChip(stat = "10pm", label = "Peak hour")
+        StatChip(
+            stat = stats.workRestRatio?.let { "%.1f×".format(it) } ?: "—",
+            label = "Work : rest"
+        )
+        StatChip(stat = "${stats.completedPercent}%", label = "Completed")
+        StatChip(
+            stat = stats.peakHour?.let { formatHour(it) } ?: "—",
+            label = "Peak hour"
+        )
     }
 }
 
@@ -52,4 +56,10 @@ private fun RowScope.StatChip(modifier: Modifier = Modifier, stat: String, label
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
+}
+
+private fun formatHour(hour: Int): String {
+    val period = if (hour < 12) "am" else "pm"
+    val h = when { hour == 0 -> 12; hour > 12 -> hour - 12; else -> hour }
+    return "$h$period"
 }

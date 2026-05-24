@@ -1,5 +1,6 @@
 package dev.xero.tomabar.domain.utils
 
+import dev.xero.tomabar.domain.models.EndReason
 import dev.xero.tomabar.domain.models.SessionState
 import dev.xero.tomabar.domain.models.TimelineSegment
 
@@ -24,6 +25,7 @@ fun parseMetrics(json: String): List<TimelineSegment> {
                 if (obj.optString("type") != "transition") continue
                 add(
                     Transition(
+                        event = obj.getString("event"),
                         toState = obj.getString("toState").toSessionState(),
                         timestampMillis = (obj.getDouble("timestamp") * 1000).toLong()
                     )
@@ -38,12 +40,17 @@ fun parseMetrics(json: String): List<TimelineSegment> {
         TimelineSegment(
             state = current.toState,
             startMillis = current.timestampMillis,
-            durationMillis = next.timestampMillis - current.timestampMillis
+            durationMillis = next.timestampMillis - current.timestampMillis,
+            endReason = when (next.event) {
+                "timerFired" -> EndReason.Completed
+                "startStop"  -> EndReason.Interrupted
+                else          -> EndReason.Ongoing
+            }
         )
     }.filter { it.durationMillis > 0 }
 }
 
-private data class Transition(val toState: SessionState, val timestampMillis: Long)
+private data class Transition(val event: String, val toState: SessionState, val timestampMillis: Long)
 
 private fun String.toSessionState(): SessionState = when (lowercase()) {
     "work" -> SessionState.Work
