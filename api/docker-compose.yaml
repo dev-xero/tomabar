@@ -1,0 +1,13 @@
+services:
+  tomabar_api:
+    container_name: tomabar_api
+    build: .
+    ports:
+      - "2118:2118"
+    restart: unless-stopped
+    environment:
+      - METRICS_PATH=/metrics.log
+      - HOST=0.0.0.0
+    volumes:
+      # This is the TomatoBar logs filepath as at 24th May, 2026.
+      - ${HOME}/Library/Containers/com.github.ivoronin.TomatoBar/Data/Library/Caches/TomatoBar.log:/app/metrics.log:ro

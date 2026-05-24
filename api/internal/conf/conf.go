@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"errors"
 	"fmt"
+	"os"
 
 	"gopkg.in/yaml.v3"
 )
@@ -29,6 +30,14 @@ func ReadConfig() (*Conf, error) {
 	if err := yaml.Unmarshal(configData, &conf); err != nil {
 		message := fmt.Sprintf("failed to unmarshal configuration file: %v", err)
 		return nil, errors.New(message)
+	}
+
+	if v := os.Getenv("HOST"); v != "" {
+		conf.MetricsPath = v
+	}
+
+	if v := os.Getenv("METRICS_PATH"); v != "" {
+		conf.MetricsPath = v
 	}
 
 	return &conf, nil
