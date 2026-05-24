@@ -74,6 +74,27 @@ Or with Task:
 task run-tests
 ```
 
+## Docker and Docker Compose
+
+At the last minute, I managed to containerize the application, but with a few caveats. Firstly, there is a readonly bind mount to the expected directory of TomatoBar's logs in the docker compose file.
+
+If you decide to deploy to an external host, you should be aware of this.
+
+```yaml
+environment:
+  - METRICS_PATH=/metrics.log
+  - HOST=0.0.0.0
+volumes:
+  # This is the TomatoBar logs filepath as of 24th May, 2026.
+  - ${HOME}/Library/Containers/com.github.ivoronin.TomatoBar/Data/Library/Caches/TomatoBar.log:/app/metrics.log:ro
+``` 
+
+Spinning up a Linux container via Compose is as simple as:
+
+```bash
+docker compose down && docker compose up -d
+```
+
 ## Extending the API
 
 If you want to customize or extend any part of the server or project, feel free to fork the repository!
