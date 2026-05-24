@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.xero.tomabar.domain.models.HeatmapData
 import dev.xero.tomabar.domain.models.SessionState
 import dev.xero.tomabar.domain.models.TimelineSegment
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarAppBar
@@ -16,6 +17,7 @@ import dev.xero.tomabar.presentation.screens.home.components.TomaBarDailySession
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarSessionHistograms
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStatsChips
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStreakCard
+import dev.xero.tomabar.presentation.screens.home.components.TomaBarYearlyHeatmap
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -59,7 +61,33 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 TomaBarDailySessionCard(sampleSegments)
                 TomaBarBreakdownCards()
                 TomaBarSessionHistograms()
+                TomaBarYearlyHeatmap(sampleHeatmapData)
             }
         }
     }
+}
+
+private val sampleHeatmapData: HeatmapData = run {
+    val year = LocalDate.now().year
+    val random = java.util.Random(42)
+
+    val map = mutableMapOf<LocalDate, Int>()
+    var day = LocalDate.of(year, 1, 1)
+    val today = LocalDate.now()
+
+    while (!day.isAfter(today)) {
+        val isWeekend = day.dayOfWeek.value >= 6
+        val roll = random.nextDouble()
+
+        val count = when {
+            roll < (if (isWeekend) 0.55 else 0.25) -> 0
+            roll < 0.70 -> 1 + random.nextInt(2)
+            roll < 0.90 -> 3 + random.nextInt(3)
+            else        -> 6 + random.nextInt(4)
+        }
+        if (count > 0) map[day] = count
+        day = day.plusDays(1)
+    }
+
+    HeatmapData(year = year, activityByDate = map)
 }

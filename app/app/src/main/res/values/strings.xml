@@ -11,4 +11,5 @@
     <string name="patterns">PATTERNS</string>
     <string name="focus_by_hour">Focus by hour</string>
     <string name="peak">Peak %1$s</string>
+    <string name="yearly_activity">Yearly activity</string>
 </resources>
