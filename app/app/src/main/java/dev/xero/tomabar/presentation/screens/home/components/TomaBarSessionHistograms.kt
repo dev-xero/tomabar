@@ -30,8 +30,8 @@ import dev.xero.tomabar.R
 
 @Composable
 fun TomaBarSessionHistograms(
-    modifier: Modifier = Modifier,
-    hourlyFocus: List<Int> = sampleHourlyFocus
+    hourlyFocus: List<Int>,
+    modifier: Modifier = Modifier
 ) {
     val peakHour = remember(hourlyFocus) {
         hourlyFocus.indices.maxByOrNull { hourlyFocus[it] } ?: 0
