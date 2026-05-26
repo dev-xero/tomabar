@@ -35,17 +35,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.xero.tomabar.R
 import dev.xero.tomabar.domain.models.DonutSegment
+import dev.xero.tomabar.domain.utils.CompletionBreakdown
+import dev.xero.tomabar.domain.utils.WorkRestBreakdown
+import dev.xero.tomabar.domain.utils.formatDuration
 import dev.xero.tomabar.presentation.theme.focusColors
 
 @Composable
-fun TomaBarBreakdownCards(modifier: Modifier = Modifier) {
+fun TomaBarBreakdownCards(
+    workRest: WorkRestBreakdown,
+    completion: CompletionBreakdown,
+    modifier: Modifier = Modifier
+) {
     val focus = MaterialTheme.focusColors
 
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 12.dp)
+        modifier = modifier.fillMaxWidth().padding(bottom = 12.dp)
     ) {
         Text(
             text = stringResource(R.string.breakdown),
@@ -53,28 +58,35 @@ fun TomaBarBreakdownCards(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxWidth()
         ) {
             TomaBarBreakdownCard(title = "Work / rest") {
                 DonutRing(
                     segments = listOf(
-                        DonutSegment(80f, focus.work), DonutSegment(20f, focus.rest)
-                    ), centerLabel = "80%", centerSubLabel = "work"
+                        DonutSegment(workRest.workMillis.toFloat(), focus.work),
+                        DonutSegment(workRest.restMillis.toFloat(), focus.rest)
+                    ),
+                    centerLabel = "${workRest.workPercent}%",
+                    centerSubLabel = "work"
                 )
                 Spacer(Modifier.height(15.dp))
-                KeyRow(focus.work, "Work", "2h 04m", showDivider = false)
-                KeyRow(focus.rest, "Rest", "31m", showDivider = true)
+                KeyRow(focus.work, "Work", formatDuration(workRest.workMillis), showDivider = false)
+                KeyRow(focus.rest, "Rest", formatDuration(workRest.restMillis), showDivider = true)
             }
 
             TomaBarBreakdownCard(title = "Completion") {
                 DonutRing(
                     segments = listOf(
-                        DonutSegment(80f, focus.work), DonutSegment(20f, focus.idle)
-                    ), centerLabel = "80%", centerSubLabel = "done"
+                        DonutSegment(completion.finished.toFloat(), focus.work),
+                        DonutSegment(completion.stopped.toFloat(), focus.idle)
+                    ),
+                    centerLabel = "${completion.completedPercent}%",
+                    centerSubLabel = "done"
                 )
                 Spacer(Modifier.height(15.dp))
-                KeyRow(focus.work, "Finished", "249", showDivider = false)
-                KeyRow(focus.idle, "Stopped", "63", showDivider = true)
+                KeyRow(focus.work, "Finished", completion.finished.toString(), showDivider = false)
+                KeyRow(focus.idle, "Stopped", completion.stopped.toString(), showDivider = true)
             }
         }
     }

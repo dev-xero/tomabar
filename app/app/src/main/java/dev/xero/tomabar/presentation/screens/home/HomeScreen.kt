@@ -22,8 +22,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.xero.tomabar.R
 import dev.xero.tomabar.domain.models.HeatmapData
 import dev.xero.tomabar.domain.models.TimelineSegment
+import dev.xero.tomabar.domain.utils.computeCompletion
 import dev.xero.tomabar.domain.utils.computeSessionStats
 import dev.xero.tomabar.domain.utils.computeStreak
+import dev.xero.tomabar.domain.utils.computeWorkRest
 import dev.xero.tomabar.domain.utils.today
 import dev.xero.tomabar.presentation.screens.home.components.OfflineBanner
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarAppBar
@@ -121,7 +123,10 @@ private fun HomeContent(
                 )
             )
             TomaBarDailyTimelineCard(sessions.today())
-            TomaBarBreakdownCards()
+            TomaBarBreakdownCards(
+                workRest = computeWorkRest( sessions.today()),
+                completion = computeCompletion(sessions)
+            )
             TomaBarSessionHistograms()
             TomaBarYearlyHeatmap(sampleHeatmapData)
         }
