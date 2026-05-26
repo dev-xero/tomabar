@@ -23,6 +23,7 @@ import dev.xero.tomabar.R
 import dev.xero.tomabar.domain.models.HeatmapData
 import dev.xero.tomabar.domain.models.TimelineSegment
 import dev.xero.tomabar.domain.utils.computeCompletion
+import dev.xero.tomabar.domain.utils.computeHeatmap
 import dev.xero.tomabar.domain.utils.computeHourlyFocus
 import dev.xero.tomabar.domain.utils.computeSessionStats
 import dev.xero.tomabar.domain.utils.computeStreak
@@ -131,7 +132,9 @@ private fun HomeContent(
             TomaBarSessionHistograms(
                 hourlyFocus = computeHourlyFocus(sessions)
             )
-            TomaBarYearlyHeatmap(sampleHeatmapData)
+            TomaBarYearlyHeatmap(
+                heatmapData = computeHeatmap(sessions)
+            )
         }
     }
 }
