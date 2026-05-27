@@ -12,7 +12,7 @@ TomaBar is a little Android app companion for the awesome [TomatoBar](https://gi
 
 ## Installation
 
-Download the latest release over at the "releases" sidebar tab, or click [here]().
+Download the latest release over at the "releases" sidebar tab, or click [here](https://github.com/dev-xero/tomabar/releases).
 
 ## Self-Hosting
 
@@ -35,7 +35,7 @@ Afterwards, use this address in the application.
 
 ## FAQ
 
-- **Will there be an iOS version:** No, and it's unlikely there will ever be, contributions are welcome though.
+- **Will there be an iOS version:** No, and it's unlikely there will ever be, you are welcome to develop one though.
 
 - **I can't connect to my computer:** This might be a firewall issue, otherwise please make sure you've entered the correct IP address and that the server is running.
 
