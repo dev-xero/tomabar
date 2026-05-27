@@ -33,11 +33,13 @@ import androidx.compose.ui.unit.dp
 import dev.xero.tomabar.R
 import dev.xero.tomabar.domain.models.SessionState
 import dev.xero.tomabar.domain.models.TimelineSegment
+import dev.xero.tomabar.domain.utils.SessionStats
 import dev.xero.tomabar.domain.utils.formatClock
 import dev.xero.tomabar.presentation.theme.focusColors
 
 @Composable
 fun TomaBarDailyTimelineCard(
+    stats: SessionStats,
     segments: List<TimelineSegment>, modifier: Modifier = Modifier
 ) {
     Column(
@@ -51,6 +53,7 @@ fun TomaBarDailyTimelineCard(
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
+        TomaBarStatsChips(stats = stats)
         TomaBarTimelineCard(segments = segments)
     }
 }
@@ -68,13 +71,17 @@ private fun TomaBarTimelineCard(
             TomaBarTimelineHeader()
             Spacer(Modifier.height(16.dp))
 
-            TomaBarSessionTimeline(segments = segments)
-            Spacer(Modifier.height(9.dp))
+            if (segments.isEmpty()) {
+                Text("No stats today")
+            } else {
+                TomaBarSessionTimeline(segments = segments)
+                Spacer(Modifier.height(9.dp))
 
-            TimelineAxis(segments)
-            Spacer(Modifier.height(15.dp))
+                TimelineAxis(segments)
+                Spacer(Modifier.height(15.dp))
 
-            TimelineLegend()
+                TimelineLegend()
+            }
         }
     }
 }

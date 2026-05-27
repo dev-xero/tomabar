@@ -36,7 +36,7 @@ fun TomaBarStreakCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
         ),
         shape = RoundedCornerShape(24.dp),
         modifier = modifier

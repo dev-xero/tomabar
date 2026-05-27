@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.xero.tomabar.R
-import dev.xero.tomabar.domain.models.HeatmapData
 import dev.xero.tomabar.domain.models.TimelineSegment
 import dev.xero.tomabar.domain.utils.computeCompletion
 import dev.xero.tomabar.domain.utils.computeHeatmap
@@ -37,7 +36,6 @@ import dev.xero.tomabar.presentation.screens.home.components.TomaBarSessionHisto
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStatsChips
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStreakCard
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarYearlyHeatmap
-import java.time.LocalDate
 
 @Composable
 fun HomeScreen(
@@ -118,13 +116,13 @@ private fun HomeContent(
         }
         item {
             TomaBarStreakCard(computeStreak(sessions))
-            TomaBarStatsChips(
-                computeSessionStats(
+            TomaBarDailyTimelineCard(
+                stats = computeSessionStats(
                     scoped = sessions.today(),
-                    allHistory = sessions
-                )
+                    allHistory = sessions.today()
+                ),
+                segments = sessions.today()
             )
-            TomaBarDailyTimelineCard(sessions.today())
             TomaBarBreakdownCards(
                 workRest = computeWorkRest( sessions.today()),
                 completion = computeCompletion(sessions)
@@ -137,29 +135,4 @@ private fun HomeContent(
             )
         }
     }
-}
-
-private val sampleHeatmapData: HeatmapData = run {
-    val year = LocalDate.now().year
-    val random = java.util.Random(42)
-
-    val map = mutableMapOf<LocalDate, Int>()
-    var day = LocalDate.of(year, 1, 1)
-    val today = LocalDate.now()
-
-    while (!day.isAfter(today)) {
-        val isWeekend = day.dayOfWeek.value >= 6
-        val roll = random.nextDouble()
-
-        val count = when {
-            roll < (if (isWeekend) 0.55 else 0.25) -> 0
-            roll < 0.70 -> 1 + random.nextInt(2)
-            roll < 0.90 -> 3 + random.nextInt(3)
-            else -> 6 + random.nextInt(4)
-        }
-        if (count > 0) map[day] = count
-        day = day.plusDays(1)
-    }
-
-    HeatmapData(year = year, activityByDate = map)
 }
