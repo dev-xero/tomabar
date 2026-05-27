@@ -33,7 +33,6 @@ import dev.xero.tomabar.presentation.screens.home.components.TomaBarAppBar
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarBreakdownCards
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarDailyTimelineCard
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarSessionHistograms
-import dev.xero.tomabar.presentation.screens.home.components.TomaBarStatsChips
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStreakCard
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarYearlyHeatmap
 
