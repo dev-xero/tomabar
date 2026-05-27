@@ -14,6 +14,10 @@ TomaBar is a little Android app companion for the awesome [TomatoBar](https://gi
 
 Download the latest release over at the "releases" sidebar tab, or click [here](https://github.com/dev-xero/tomabar/releases).
 
+### A Note on Sideloading
+
+You may get a warning from Google Play Protect. It's safe to ignore this as it doesn't recognize the app from a "verified publisher". If you still have your doubts, feel free to look through the source code.
+
 ## Self-Hosting
 
 > [!IMPORTANT]  
