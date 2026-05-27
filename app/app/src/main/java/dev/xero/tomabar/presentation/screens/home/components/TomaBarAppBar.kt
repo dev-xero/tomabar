@@ -16,7 +16,9 @@ import androidx.compose.ui.unit.dp
 import dev.xero.tomabar.R
 
 @Composable
-fun TomaBarAppBar(modifier: Modifier = Modifier) {
+fun TomaBarAppBar(
+    modifier: Modifier = Modifier
+) {
     Row(
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -31,10 +33,6 @@ fun TomaBarAppBar(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.your_focus),
                 style = MaterialTheme.typography.headlineLarge
-            )
-            Text(
-                text = "312" + " sessions ・ " + "148.2" + " hours this year",
-                style = MaterialTheme.typography.bodyMedium
             )
         }
     }

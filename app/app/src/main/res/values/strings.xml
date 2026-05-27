@@ -11,6 +11,7 @@
     <string name="patterns">PATTERNS</string>
     <string name="focus_by_hour">Focus by hour</string>
     <string name="peak">Peak %1$s</string>
+    <string name="yearly_stats_header">%1$d sessions ・ %2$d hours this year</string>
     <string name="yearly_activity">Yearly activity</string>
     <string name="intro">TomaBar is a companion app for the Open Source \'TomatoBar\' productivity app on MacOS. It offers helpful visuals into your session habits!</string>
     <string name="intro_contd">Heads up! We assume you have TomatoBar installed on your Mac, and you\'ve setup a publicly accessible web server. See the github repo for more information.</string>

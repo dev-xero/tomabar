@@ -27,6 +27,7 @@ import dev.xero.tomabar.domain.utils.computeHourlyFocus
 import dev.xero.tomabar.domain.utils.computeSessionStats
 import dev.xero.tomabar.domain.utils.computeStreak
 import dev.xero.tomabar.domain.utils.computeWorkRest
+import dev.xero.tomabar.domain.utils.computeYearlySessionStats
 import dev.xero.tomabar.domain.utils.today
 import dev.xero.tomabar.presentation.screens.home.components.OfflineBanner
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarAppBar
@@ -35,6 +36,7 @@ import dev.xero.tomabar.presentation.screens.home.components.TomaBarDailyTimelin
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarSessionHistograms
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarStreakCard
 import dev.xero.tomabar.presentation.screens.home.components.TomaBarYearlyHeatmap
+import dev.xero.tomabar.presentation.screens.home.components.TomaBarYearlyStatsHeader
 
 @Composable
 fun HomeScreen(
@@ -114,6 +116,9 @@ private fun HomeContent(
             }
         }
         item {
+            TomaBarYearlyStatsHeader(
+                computeYearlySessionStats(sessions)
+            )
             TomaBarStreakCard(computeStreak(sessions))
             TomaBarDailyTimelineCard(
                 stats = computeSessionStats(
