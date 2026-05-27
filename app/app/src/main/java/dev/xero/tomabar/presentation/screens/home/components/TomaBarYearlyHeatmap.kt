@@ -1,6 +1,7 @@
 package dev.xero.tomabar.presentation.screens.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -85,7 +88,6 @@ private fun TomaBarYearlyHeatmapHeader(modifier: Modifier = Modifier) {
         }
     }
 }
-
 @Composable
 private fun HeatmapGrid(
     data: HeatmapData,
@@ -93,56 +95,91 @@ private fun HeatmapGrid(
 ) {
     val focus = MaterialTheme.focusColors
     val emptyColor = MaterialTheme.colorScheme.surfaceContainerHighest
-
-    val days = remember(data) { buildHeatmapDays(data.year) }
-
     val maxCount = remember(data) {
         data.activityByDate.values.maxOrNull()?.coerceAtLeast(1) ?: 1
     }
 
-    LazyHorizontalGrid(
-        rows = GridCells.Fixed(7),
-        horizontalArrangement = Arrangement.spacedBy(3.dp),
-        verticalArrangement = Arrangement.spacedBy(3.dp),
-        modifier = modifier.height((7 * 12).dp + (6 * 3).dp)
+    val months = remember(data.year) { buildHeatmapMonths(data.year) }
+
+    Row(
+        modifier = modifier.horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(days) { day ->
-            val color = when {
-                day == null -> Color.Transparent
-                else -> {
-                    val count = data.activityByDate[day] ?: 0
-                    if (count == 0) emptyColor
-                    else focus.work.copy(alpha = levelAlpha(count, maxCount))
-                }
-            }
-            Box(
-                Modifier
-                    .size(12.dp)
-                    .clip(RoundedCornerShape(3.dp))
-                    .background(color)
+        months.forEach { month ->
+            MonthBlock(
+                month = month,
+                data = data,
+                maxCount = maxCount,
+                emptyColor = emptyColor,
+                workColor = focus.work
             )
         }
     }
 }
 
-private fun buildHeatmapDays(year: Int): List<LocalDate?> {
-    val first = LocalDate.of(year, 1, 1)
-    val last = LocalDate.of(year, 12, 31)
-
-    // How many blanks before Jan 1 (Monday = 0 ... Sunday = 6)
-    val leadingBlanks = (first.dayOfWeek.value - 1)
-
-    val days = mutableListOf<LocalDate?>()
-    repeat(leadingBlanks) { days.add(null) }
-    var d = first
-    while (!d.isAfter(last)) {
-        days.add(d)
-        d = d.plusDays(1)
+@Composable
+private fun MonthBlock(
+    month: HeatmapMonth,
+    data: HeatmapData,
+    maxCount: Int,
+    emptyColor: Color,
+    workColor: Color,
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LazyHorizontalGrid(
+            rows = GridCells.Fixed(7),
+            horizontalArrangement = Arrangement.spacedBy(3.dp),
+            verticalArrangement = Arrangement.spacedBy(3.dp),
+            modifier = Modifier
+                .height((7 * 12).dp + (6 * 3).dp)
+                .width((month.weekCount * 12).dp + ((month.weekCount - 1) * 3).dp)
+        ) {
+            items(month.days) { day ->
+                val color = when {
+                    day == null -> Color.Transparent
+                    else -> {
+                        val count = data.activityByDate[day] ?: 0
+                        if (count == 0) emptyColor
+                        else workColor.copy(alpha = levelAlpha(count, maxCount))
+                    }
+                }
+                Box(
+                    Modifier.size(12.dp).clip(RoundedCornerShape(3.dp)).background(color)
+                )
+            }
+        }
+        Spacer(Modifier.height(6.dp))
+        Text(
+            month.label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
+}
 
-    // pad the tail so the grid is a whole number of columns (optional, keeps it rectangular)
-    while (days.size % 7 != 0) days.add(null)
-    return days
+data class HeatmapMonth(
+    val label: String,
+    val days: List<LocalDate?>,
+    val weekCount: Int,
+)
+
+private fun buildHeatmapMonths(year: Int): List<HeatmapMonth> {
+    return (1..12).map { m ->
+        val first = LocalDate.of(year, m, 1)
+        val length = first.lengthOfMonth()
+        val leadingBlanks = first.dayOfWeek.value - 1
+
+        val days = buildList {
+            repeat(leadingBlanks) { add(null) }
+            for (d in 1..length) add(LocalDate.of(year, m, d))
+            while (size % 7 != 0) add(null)
+        }
+        HeatmapMonth(
+            label = first.month.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault()),
+            days = days,
+            weekCount = days.size / 7
+        )
+    }
 }
 
 @Composable
