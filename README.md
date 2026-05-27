@@ -43,7 +43,7 @@ Afterwards, use this address in the application.
 
 - **I can't connect to my computer:** This might be a firewall issue, otherwise please make sure you've entered the correct IP address and that the server is running.
 
-- **How can I contribute?** I'm generally not accepting requests for new features, however if you'd like to extend the app and have the skills to do so, feel free to fork the repository.
+- **How can I contribute:** I'm generally not accepting requests for new features, however if you'd like to extend the app and have the skills to do so, feel free to fork the repository.
 
 ## Credits
 
