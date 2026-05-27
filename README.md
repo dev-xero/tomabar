@@ -43,4 +43,4 @@ Afterwards, use this address in the application.
 
 ## Credits
 
-The app logo, design, and code were all written by me. Original inspiration for the name came from Tomato Bar.
+The app logo, design, and code were all done by me. Original inspiration for the name came from Tomato Bar.
